@@ -1,6 +1,5 @@
 import { EdgeData, NodeData } from '../types';
 import ELK, { ElkNode } from 'elkjs/lib/elk.bundled';
-import PCancelable from 'p-cancelable';
 import { formatText, measureText } from './utils';
 
 export type CanvasDirection = 'LEFT' | 'RIGHT' | 'DOWN' | 'UP';
@@ -195,12 +194,12 @@ function mapNode(nodes: NodeData[], edges: EdgeData[], node: NodeData) {
   } = formatText(node);
 
   const children = nodes
-    .filter((n) => n.parent === node.id)
-    .map((n) => mapNode(nodes, edges, n));
+    .filter(n => n.parent === node.id)
+    .map(n => mapNode(nodes, edges, n));
 
   const childEdges = edges
-    .filter((e) => e.parent === node.id)
-    .map((e) => mapEdge(e));
+    .filter(e => e.parent === node.id)
+    .map(e => mapEdge(e));
 
   const nodeLayoutOptions: ElkNodeLayoutOptions = {
     'elk.padding': `[left=${nodePadding.left}, top=${nodePadding.top}, right=${nodePadding.right}, bottom=${nodePadding.bottom}]`,
@@ -215,7 +214,7 @@ function mapNode(nodes: NodeData[], edges: EdgeData[], node: NodeData) {
     children,
     edges: childEdges,
     ports: node.ports
-      ? node.ports.map((port) => ({
+      ? node.ports.map(port => ({
         id: port.id,
         properties: {
           ...port,
@@ -327,7 +326,8 @@ function postProcessNode(nodes: any[]): any[] {
 export const elkLayout = (
   nodes: NodeData[],
   edges: EdgeData[],
-  options: ElkCanvasLayoutOptions
+  options: ElkCanvasLayoutOptions,
+  signal?: AbortSignal,
 ) => {
   const graph = new ELK();
   const layoutOptions: ElkCanvasLayoutOptions = {
@@ -335,7 +335,11 @@ export const elkLayout = (
     ...options
   };
 
-  return new PCancelable<ElkNode>((resolve, reject) => {
+  return new Promise<ElkNode>((resolve, reject) => {
+    signal.addEventListener('abort', () => {
+      reject();
+    }, { once: true });
+
     graph
       .layout(
         {
@@ -346,7 +350,7 @@ export const elkLayout = (
           layoutOptions: layoutOptions
         }
       )
-      .then((data) => {
+      .then(data => {
         resolve({
           ...data,
           children: postProcessNode(data.children)
