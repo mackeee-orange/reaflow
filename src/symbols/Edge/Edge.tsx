@@ -136,10 +136,10 @@ export const Edge: FC<Partial<EdgeProps>> = ({
     if (sections[0].bendPoints) {
       const points: any[] = sections
         ? [
-            sections[0].startPoint,
-            ...(sections[0].bendPoints || ([] as any)),
-            sections[0].endPoint
-          ]
+          sections[0].startPoint,
+          ...(sections[0].bendPoints || ([] as any)),
+          sections[0].endPoint
+        ]
         : [];
 
       let pathFn: any = line()

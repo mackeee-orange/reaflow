@@ -123,10 +123,12 @@ export const useLayout = ({
   const canvasWidth = pannable ? maxWidth : width;
 
   useEffect(() => {
+    const abortController = new AbortController();
+    const { signal } = abortController;
     const promise = elkLayout(nodes, edges, {
       'elk.direction': direction,
       ...layoutOptions
-    });
+    }, signal);
 
     promise
       .then(result => {
@@ -141,7 +143,7 @@ export const useLayout = ({
         }
       });
 
-    return () => promise.cancel();
+    return () => abortController.abort();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nodes, edges]);
 

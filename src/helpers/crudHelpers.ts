@@ -57,20 +57,20 @@ export function removeAndUpsertNodes(
     removeNodes = [removeNodes];
   }
 
-  const nodeIds = removeNodes.map((n) => n.id);
-  const newNodes = nodes.filter((n) => !nodeIds.includes(n.id));
+  const nodeIds = removeNodes.map(n => n.id);
+  const newNodes = nodes.filter(n => !nodeIds.includes(n.id));
   const newEdges = edges.filter(
-    (e) => !nodeIds.includes(e.from) && !nodeIds.includes(e.to)
+    e => !nodeIds.includes(e.from) && !nodeIds.includes(e.to)
   );
 
   for (const nodeId of nodeIds) {
-    const sourceEdges = edges.filter((e) => e.to === nodeId);
-    const targetEdges = edges.filter((e) => e.from === nodeId);
+    const sourceEdges = edges.filter(e => e.to === nodeId);
+    const targetEdges = edges.filter(e => e.from === nodeId);
 
     for (const sourceEdge of sourceEdges) {
       for (const targetEdge of targetEdges) {
-        const sourceNode = nodes.find((n) => n.id === sourceEdge.from);
-        const targetNode = nodes.find((n) => n.id === targetEdge.to);
+        const sourceNode = nodes.find(n => n.id === sourceEdge.from);
+        const targetNode = nodes.find(n => n.id === targetEdge.to);
         if (sourceNode && targetNode) {
           const canLink = onNodeLinkCheck?.(
             newNodes,
@@ -113,14 +113,14 @@ export function removeNode(
   const newEdges = [];
 
   for (const node of nodes) {
-    const has = removeNodes.some((n) => n === node.id);
+    const has = removeNodes.some(n => n === node.id);
     if (!has) {
       newNodes.push(node);
     }
   }
 
   for (const edge of edges) {
-    const has = removeNodes.some((n) => n === edge.from || n === edge.to);
+    const has = removeNodes.some(n => n === edge.from || n === edge.to);
     if (!has) {
       newEdges.push(edge);
     }
@@ -144,8 +144,8 @@ export function removeEdgesFromNode(nodeId: string, edges: EdgeData[]) {
  */
 export function removeEdge(edges: EdgeData[], edge: EdgeData | EdgeData[]) {
   const deletions: EdgeData[] = !Array.isArray(edge) ? [edge] : edge;
-  const edgeIds = deletions.map((e) => e.id);
-  return edges.filter((e) => !edgeIds.includes(e.id));
+  const edgeIds = deletions.map(e => e.id);
+  return edges.filter(e => !edgeIds.includes(e.id));
 }
 
 /**

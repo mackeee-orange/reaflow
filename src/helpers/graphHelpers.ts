@@ -4,7 +4,7 @@ import { EdgeData, NodeData, PortData } from '../types';
  * Helper function to determine if edge already has a link.
  */
 export function hasLink(edges: EdgeData[], from: NodeData, to: NodeData) {
-  return edges.some((e) => e.from === from.id && e.to === to.id);
+  return edges.some(e => e.from === from.id && e.to === to.id);
 }
 
 /**
@@ -22,13 +22,13 @@ function getSourceNodesForTargetId(
     return acc;
   }, []);
 
-  const node = nodes.find((n) => n.id === nodeId);
+  const node = nodes.find(n => n.id === nodeId);
 
   if (node?.parent) {
     sourceNodeIds.push(node.parent);
   }
 
-  return nodes.filter((n) => sourceNodeIds.includes(n.id));
+  return nodes.filter(n => sourceNodeIds.includes(n.id));
 }
 
 /**
@@ -72,7 +72,7 @@ export const getParentsForNodeId = (
   const traverse = (nodeId: string) => {
     const sourceNodes = getSourceNodesForTargetId(nodes, edges, nodeId);
     for (const node of sourceNodes) {
-      const has = result.find((n) => n.id === node.id);
+      const has = result.find(n => n.id === node.id);
       if (!has) {
         result.push(node);
         traverse(node.id);
@@ -88,7 +88,7 @@ export const getParentsForNodeId = (
 /**
  * Get edge data given a node.
  */
- export function getEdgesByNode(edges: EdgeData[], node: NodeData) {
+export function getEdgesByNode(edges: EdgeData[], node: NodeData) {
   const to = [];
   const from = [];
 
