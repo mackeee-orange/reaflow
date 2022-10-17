@@ -1,6 +1,6 @@
 {
   "name": "@mackeee-orange/reaflow",
-  "version": "5.0.8",
+  "version": "5.0.9",
   "description": "Node-based Visualizations for React",
   "scripts": {
     "build": "rollup -c",
