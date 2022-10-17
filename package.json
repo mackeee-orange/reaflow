@@ -1,6 +1,6 @@
 {
-  "name": "reaflow",
-  "version": "5.0.7",
+  "name": "@mackeee-orange/reaflow",
+  "version": "5.0.8",
   "description": "Node-based Visualizations for React",
   "scripts": {
     "build": "rollup -c",
@@ -22,7 +22,7 @@
   "typings": "dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/reaviz/reaflow.git"
+    "url": "https://github.com/mackeee-orange/reaflow.git"
   },
   "files": [
     "dist"
