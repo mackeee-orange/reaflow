@@ -158,7 +158,7 @@ export const Node: FC<Partial<NodeProps>> = ({
   const [dragging, setDragging] = useState<boolean>(false);
   const [isLinkable, setIsLinkable] = useState<boolean>(true);
   const isActive = selections?.length
-    ? selections.includes(properties.id)
+    ? selections.includes(properties?.id)
     : null;
   const isNodeDrag = id.includes('node-drag');
   const newX = x + offsetX;
@@ -243,7 +243,7 @@ export const Node: FC<Partial<NodeProps>> = ({
   });
 
   useEffect(() => {
-    if (enteredNode?.id === properties.id) {
+    if (properties && enteredNode?.id === properties.id) {
       setIsLinkable(checkNodeLinkable(properties, enteredNode, canLinkNode));
     }
 
